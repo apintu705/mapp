@@ -1,19 +1,25 @@
 import React from 'react'
 import {TextField, Box, Button, Typography, styled} from "@mui/material"
-import { useState } from 'react';
+import { useState,useContext } from 'react';
 import { API } from '../../service/api';
+import {DataContext} from "../../context/Dataprovider"
+import {useNavigate} from "react-router-dom"
 
 
 
 
-
-
-export const Login = () => {
+export const Login = ({setisAuth}) => {
     const imageURL = 'https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png';
+    const navigate=useNavigate()
+    const { setAccount } = useContext(DataContext);
 
     const [account,setaccount]=useState("login")
     const [signup,setsignup]=useState({
         name:"",
+        username:"",
+        password:"",
+    })
+    const [logindata,setlogindata]=useState({
         username:"",
         password:"",
     })
@@ -25,6 +31,30 @@ export const Login = () => {
 
     const oninputchange=(e)=>{
         setsignup({...signup,[e.target.name]:e.target.value})
+    }
+    const onvaluechange=(e)=>{
+        setlogindata({...logindata,[e.target.name]:e.target.value})
+    }
+    const login=async()=>{
+        
+        try{
+            let response = await API.userLogin(logindata)
+        
+        if(response.isSuccess){
+            setError(false)
+            sessionStorage.setItem("accesstoken",`Bearer${response.data.accesstoken}`)
+            sessionStorage.setItem("refresstoken",`Bearer${response.data.refresstoken}`)
+            setisAuth(true)
+            setAccount({username:response.data.username,name:response.data.name})
+            navigate("/")
+        }
+        }
+        catch(e){
+            
+            setError(true)
+        }
+        
+        
     }
     const signupuser=async()=>{
         
@@ -49,7 +79,7 @@ export const Login = () => {
         
         
     }
-console.log(error)
+
 
   return (
     <Component>
@@ -59,9 +89,15 @@ console.log(error)
             {account==="login"?(
             <Wrapper>
                 <TextField  variant="standard"
+                onChange={(e)=>onvaluechange(e)}
+                name="username"
                 label='Enter Username'/>
-                <TextField variant="standard" label='Enter Password'/>
-                <LoginButton variant="contained">Login</LoginButton>
+                <TextField variant="standard"onChange={(e)=>onvaluechange(e)}
+                name="password" label='Enter Password'/>
+
+                {error?<Error>something went wrong!!! please try again</Error>:""}
+
+                <LoginButton onClick={(e)=>login()} variant="contained">Login</LoginButton>
                 <Text style={{textAlign: 'center'}}>OR</Text>
                 <SignupButton onClick={()=>togglesignup("signup")}>Create an account</SignupButton>
             </Wrapper>
@@ -77,7 +113,7 @@ console.log(error)
                 onChange={(e)=>oninputchange(e)} 
                 name='password'label='Enter Password'/>
 
-                {error?<Error>something went wrong!!!</Error>:""}
+                {error?<Error>something went wrong!!! please try again</Error>:""}
 
                 <SignupButton onClick={(e)=>signupuser(e)} >Sign Up</SignupButton>
                 <Text style={{textAlign: 'center'}}>OR</Text>
