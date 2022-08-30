@@ -11,9 +11,18 @@ export const Login = () => {
     const imageURL = 'https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png';
 
     const [account,setaccount]=useState("login")
+    const [signup,setsignup]=useState({
+        name:"",
+        username:"",
+        password:"",
+    })
 
     const togglesignup=(e)=>{
         setaccount(e)
+    }
+
+    const oninputchange=(e)=>{
+        setsignup({...signup,[e.target.name]:e.target.value})
     }
 
   return (
@@ -23,7 +32,8 @@ export const Login = () => {
 
             {account==="login"?(
             <Wrapper>
-                <TextField  variant="standard" label='Enter Username'/>
+                <TextField  variant="standard"
+                label='Enter Username'/>
                 <TextField variant="standard" label='Enter Password'/>
                 <LoginButton variant="contained">Login</LoginButton>
                 <Text style={{textAlign: 'center'}}>OR</Text>
@@ -31,9 +41,15 @@ export const Login = () => {
             </Wrapper>
             ):(
             <Wrapper>
-                <TextField  variant="standard" label='Enter Name'/>
-                <TextField  variant="standard" label='Enter Username'/>
-                <TextField variant="standard" label='Enter Password'/>
+                <TextField  variant="standard" 
+                onChange={(e)=>oninputchange(e)}
+                name='name'label='Enter Name'/>
+                <TextField  variant="standard"
+                onChange={(e)=>oninputchange(e)} 
+                name='username'label='Enter Username'/>
+                <TextField variant="standard"
+                onChange={(e)=>oninputchange(e)} 
+                name='password'label='Enter Password'/>
                 <SignupButton >Sign Up</SignupButton>
                 <Text style={{textAlign: 'center'}}>OR</Text>
                 <LoginButton variant="contained" onClick={()=>togglesignup("login")}>Already have an account</LoginButton>
