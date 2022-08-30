@@ -1,6 +1,7 @@
 import React from 'react'
 import {TextField, Box, Button, Typography, styled} from "@mui/material"
 import { useState } from 'react';
+import { API } from '../../service/api';
 
 
 
@@ -16,6 +17,7 @@ export const Login = () => {
         username:"",
         password:"",
     })
+    const [error,setError] = useState(false)
 
     const togglesignup=(e)=>{
         setaccount(e)
@@ -24,6 +26,30 @@ export const Login = () => {
     const oninputchange=(e)=>{
         setsignup({...signup,[e.target.name]:e.target.value})
     }
+    const signupuser=async()=>{
+        
+        try{
+            let response = await API.userSignup(signup)
+        
+        if(response.isSuccess){
+            
+            setsignup({
+                name:"",
+                username:"",
+                password:"",
+            })
+            setError(false)
+            setaccount("login")
+        }
+        }
+        catch(e){
+            
+            setError(true)
+        }
+        
+        
+    }
+console.log(error)
 
   return (
     <Component>
@@ -50,7 +76,10 @@ export const Login = () => {
                 <TextField variant="standard"
                 onChange={(e)=>oninputchange(e)} 
                 name='password'label='Enter Password'/>
-                <SignupButton >Sign Up</SignupButton>
+
+                {error?<Error>something went wrong!!!</Error>:""}
+
+                <SignupButton onClick={(e)=>signupuser(e)} >Sign Up</SignupButton>
                 <Text style={{textAlign: 'center'}}>OR</Text>
                 <LoginButton variant="contained" onClick={()=>togglesignup("login")}>Already have an account</LoginButton>
             </Wrapper>
@@ -109,5 +138,11 @@ const Text = styled(Typography)`
     font-size: 12px;
 `;
 
-
+const Error = styled(Typography)`
+    font-size: 10px;
+    color: #ff6161;
+    line-height: 0;
+    margin-top: 10px;
+    font-weight: 600;
+`
 
