@@ -15,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 const router=require("./routes/routes")
 app.use("/",router);
 
+app.get("/",(req,res)=>{res.send("hi")})
 
 const PORT=process.env.PORT || 8080
 app.listen(PORT,()=>{

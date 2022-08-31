@@ -1,10 +1,10 @@
 const express=require('express');
-const { uploadimage ,getimage} = require('../controller/imagecontroller');
+
 
 const { createpost, getAllPosts, getPost, updatePost, deletePost } = require('../controller/postcontroller');
 const { newReview, getReviews, deleteReview } = require('../controller/reviewcontroller');
 const { signupuser, loginuser } = require('../controller/usercontroller');
-const upload=require("../utils/upload");
+
 const { isAuth } = require('../utils/utils');
 const router=express.Router();
 
