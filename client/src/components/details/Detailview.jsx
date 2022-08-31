@@ -5,6 +5,7 @@ import { Box, Typography, styled } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 import {deletepostaction} from "../../redux/action/postaction"
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Comments } from '../reviewcomments/Comments';
 
 export const Detailview = () => {
     const dispatch=useDispatch();
@@ -51,7 +52,7 @@ export const Detailview = () => {
             </Author>
 
             <Typography>{post.description}</Typography>
-            
+            <Comments post={post}/>
     </Container>
     
   )

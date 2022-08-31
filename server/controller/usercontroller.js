@@ -39,7 +39,7 @@ exports.loginuser=async(req, res, next) =>{
             }else{
                 const token= generateToken(user)
 
-                return res.status(200).json({name:user.name,username:user.username,token})
+                return res.status(200).json({name:user.name,id:user._id,username:user.username,token})
             }
         }
         else{

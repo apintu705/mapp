@@ -26,7 +26,7 @@ const PostSchema =new mongoose.Schema({
     createdDate: {
         type: Date
     }
-});
+},{timestamps:true,versionKey:false});
 
 
 module.exports= mongoose.model('post', PostSchema);
