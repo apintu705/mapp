@@ -13,8 +13,7 @@ router.post("/signup",signupuser)
 router.post("/login",loginuser)
 
 
-// router.post("/file/upload",upload.single("file"),uploadimage)
-// router.get("/file/:filename",getimage)
+
 
 
 router.post("/create",isAuth,createpost)

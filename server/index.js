@@ -18,7 +18,7 @@ app.use("/",router);
 app.get("/",(req,res)=>{res.send("hi")})
 
 const PORT=process.env.PORT || 8080
-app.listen(process.env.PORT,()=>{
+app.listen(PORT,()=>{
     connect();
     console.log(`listening on port ${process.env.PORT}`);
 })

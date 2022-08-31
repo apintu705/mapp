@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require("dotenv").config();
 
 exports.connect=async()=>{
     const url=process.env.MONGODB
