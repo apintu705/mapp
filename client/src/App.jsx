@@ -10,6 +10,8 @@ import { Createpost } from './components/create/Createpost';
 import store from "./redux/store"
 import { Detailview } from './components/details/Detailview';
 import { Update } from './components/create/Update';
+import { About } from './components/About';
+import { Contact } from './components/Contact';
 
 const Privateroute=({isauth,...props})=>{
   
@@ -45,6 +47,13 @@ function App() {
               <Route path="/update/:id" element={<Update/>}/>
             </Route>
 
+            <Route path="/about" element={<Privateroute isauth={isauth} />}>
+              <Route path="/about" element={<About/>}/>
+            </Route>
+
+            <Route path="/contact" element={<Privateroute isauth={isauth} />}>
+              <Route path="/contact" element={<Contact/>}/>
+            </Route>
         </Routes>
         
         

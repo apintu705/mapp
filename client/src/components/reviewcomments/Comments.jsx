@@ -1,21 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, TextareaAutosize, Button, styled } from '@mui/material';
 import {useDispatch,useSelector} from "react-redux"
 import { createreviewaction } from '../../redux/action/reviewaction';
+import axios from 'axios';
+import { Comment } from './Comment';
 
 
 export const Comments = ({post}) => {
     const {user}=useSelector((state)=>state.user)
     
     const dispatch=useDispatch();
+    const [toggle,settoggle]=useState(false)
 
     const [review,setreview]=useState({
+        name:"",
         userid:"",
         postid:"",
         review:""
     })
+    const [reviews,setreviews]=useState([]);
     const handlechange=(e)=>{
         setreview({...review,
+            name:user.username,
             userid:user.id,
             postid:post._id,
             review:e.target.value
@@ -26,7 +32,21 @@ export const Comments = ({post}) => {
 
     const addreview=(e)=>{
         dispatch(createreviewaction(user.token,review))
+        settoggle(prev => !prev)
     }
+
+    useEffect(()=>{
+        const fun=async()=>{
+            let {data}=await axios.get(`http://localhost:8080/reviews/${post._id}`,{
+                headers: {
+                  authorization: `Bearer ${user.token}`,
+                },
+              })
+              setreviews(data)
+              
+        }
+        fun()
+    },[user,post,toggle])
 
   return (
     <Box>
@@ -45,13 +65,13 @@ export const Comments = ({post}) => {
             >Review</Button>             
             
         </Container>
-        {/* <Box>
+        <Box>
             {
-                comments && comments.length > 0 && comments.map(comment => (
-                    <Comment comment={comment} setToggle={setToggle} />
+                reviews && reviews.length > 0 && reviews.map(rev => (
+                    <Comment key={rev._id} rev={rev} settoggle={settoggle}  />
                 ))
             }
-        </Box> */}
+        </Box>
     </Box>
   )
 }

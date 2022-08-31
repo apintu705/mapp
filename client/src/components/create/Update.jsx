@@ -4,7 +4,7 @@ import { styled, TextareaAutosize, Button, InputBase, FormControl  } from '@mui/
 import axios from 'axios';
  import { useNavigate, useParams } from 'react-router-dom';
 import {useDispatch,useSelector} from "react-redux"
-import { createpostaction, updatepostaction } from '../../redux/action/postaction';
+import { updatepostaction } from '../../redux/action/postaction';
  
 
 export const Update = () => {
@@ -34,7 +34,7 @@ export const Update = () => {
     const updatepost=()=>{
         dispatch(updatepostaction(user.token,initpost,id))
         
-            navigate(`/details/${id}`)
+            navigate(`/`)
         
     }
 

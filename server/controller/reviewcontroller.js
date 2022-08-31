@@ -13,23 +13,23 @@ exports.newReview = async (req, res) => {
 }
 
 
-exports.getReviews = async (request, response) => {
+exports.getReviews = async (req, res) => {
     try {
-        const reviews = await Review.find({ postId: request.params.id });
+        const reviews = await Review.find({ postid: req.params.id });
         
-        response.status(200).json(reviews);
+        res.status(200).json(reviews);
     } catch (error) {
-        response.status(500).json(error)
+        res.status(500).json(error)
     }
 }
 
-exports.deleteReview = async (request, response) => {
+exports.deleteReview = async (req, res) => {
     try {
-        const review = await Review.findById(request.params.id);
+        const review = await Review.findById(req.params.id);
         await review.delete()
 
-        response.status(200).json('review deleted successfully');
+        res.status(200).json('review deleted successfully');
     } catch (error) {
-        response.status(500).json(error)
+        res.status(500).json(error)
     }
 }

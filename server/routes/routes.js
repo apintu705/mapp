@@ -2,7 +2,7 @@ const express=require('express');
 const { uploadimage ,getimage} = require('../controller/imagecontroller');
 
 const { createpost, getAllPosts, getPost, updatePost, deletePost } = require('../controller/postcontroller');
-const { newReview } = require('../controller/reviewcontroller');
+const { newReview, getReviews, deleteReview } = require('../controller/reviewcontroller');
 const { signupuser, loginuser } = require('../controller/usercontroller');
 const upload=require("../utils/upload");
 const { isAuth } = require('../utils/utils');
@@ -26,6 +26,8 @@ router.delete("/delete/:id",isAuth,deletePost)
 
 
 router.post("/review/new",isAuth,newReview)
+router.get("/reviews/:id",isAuth,getReviews)
+router.delete("/review/delete/:id",isAuth,deleteReview)
 
 module.exports =router;
 
