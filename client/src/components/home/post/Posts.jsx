@@ -18,17 +18,17 @@ export const Posts = () => {
 
   useEffect(()=>{
     if(user){
-      dispatch(getallpostaction(user.token))
+      dispatch(getallpostaction(user.token,category))
     }
     
-  },[dispatch,user])
+  },[dispatch,user,category])
 
   return (
     <>
       {
                 post?.length ? post.map(elem => (
-                    <Grid item lg={3} sm={4} xs={12}>
-                        <Link style={{textDecoration: 'none', color: 'inherit'}} to={`details/${post._id}`}>
+                    <Grid key={elem._id} item lg={3} sm={4} xs={12}>
+                        <Link style={{textDecoration: 'none', color: 'inherit'}} to={`details/${elem._id}`}>
                             <Post post={elem} />
                         </Link>
                     </Grid>

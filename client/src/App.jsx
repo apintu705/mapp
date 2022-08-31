@@ -8,6 +8,8 @@ import { Header } from './components/header/Header';
 import { useState } from 'react';
 import { Createpost } from './components/create/Createpost';
 import store from "./redux/store"
+import { Detailview } from './components/details/Detailview';
+import { Update } from './components/create/Update';
 
 const Privateroute=({isauth,...props})=>{
   
@@ -34,6 +36,13 @@ function App() {
             </Route>
             <Route path="/create" element={<Privateroute isauth={isauth} />}>
               <Route path="/create" element={<Createpost/>}/>
+            </Route>
+            <Route path="/details/:id" element={<Privateroute isauth={isauth} />}>
+              <Route path="/details/:id" element={<Detailview/>}/>
+            </Route>
+
+            <Route path="/update/:id" element={<Privateroute isauth={isauth} />}>
+              <Route path="/update/:id" element={<Update/>}/>
             </Route>
 
         </Routes>

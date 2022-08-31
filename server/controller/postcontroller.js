@@ -18,36 +18,36 @@ exports.updatePost = async (req, res) => {
         const post = await Post.findById(req.params.id);
 
         if (!post) {
-            response.status(404).json({ msg: 'Post not found' })
+            res.status(404).json({ msg: 'Post not found' })
         }
         
-        await Post.findByIdAndUpdate( request.params.id, { $set: request.body })
+        await Post.findByIdAndUpdate( req.params.id, { $set: req.body })
 
-        response.status(200).json('post updated successfully');
+        res.status(200).json('post updated successfully');
     } catch (error) {
-        response.status(500).json(error);
+        res.status(500).json(error);
     }
 }
 
-exports.deletePost = async (request, response) => {
+exports.deletePost = async (req, res) => {
     try {
-        const post = await Post.findById(request.params.id);
+        const post = await Post.findById(req.params.id);
         
         await post.delete()
 
-        response.status(200).json('post deleted successfully');
+        res.status(200).json('post deleted successfully');
     } catch (error) {
-        response.status(500).json(error)
+        res.status(500).json(error)
     }
 }
 
-exports.getPost = async (request, response) => {
+exports.getPost = async (req, res) => {
     try {
-        const post = await Post.findById(request.params.id);
+        const post = await Post.findById(req.params.id);
 
-        response.status(200).json(post);
+        res.status(200).json(post);
     } catch (error) {
-        response.status(500).json(error)
+        res.status(500).json(error)
     }
 }
 

@@ -1,8 +1,10 @@
 import React from 'react'
+
 import { styled, Box, Typography } from '@mui/material';
 
 export const Post = ({post}) => {
 
+        
   return (
     <Container>
         <Image src={post.picture} alt={post._id}/>

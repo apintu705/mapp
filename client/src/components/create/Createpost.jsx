@@ -21,7 +21,7 @@ export const Createpost = () => {
         description:"",
         picture:"",
         username:"",
-        category:"",
+        categories:"",
         createdDate:new Date(),
     })
 
@@ -40,7 +40,7 @@ export const Createpost = () => {
     }
 
     useEffect(()=>{
-        initpost.category=location.search?.split("=")[1] || "All";
+        initpost.categories=location.search?.split("=")[1] || "All";
         initpost.username=user.username
     },[initpost,location,user])
 
