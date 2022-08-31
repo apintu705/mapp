@@ -1,18 +1,20 @@
 import React from 'react'
 import {TextField, Box, Button, Typography, styled} from "@mui/material"
-import { useState,useContext } from 'react';
-import { API } from '../../service/api';
-import {DataContext} from "../../context/Dataprovider"
+import { useState,} from 'react';
+
 import {useNavigate} from "react-router-dom"
+import { useDispatch, useSelector } from 'react-redux';
+import { loginaction, signupaction } from '../../redux/action/useraction';
 
 
 
 
 export const Login = ({setisAuth}) => {
     const imageURL = 'https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png';
-    const navigate=useNavigate()
-    const { setAccount } = useContext(DataContext);
-
+    const navigate=useNavigate();
+    const dispatch=useDispatch();
+    const {error}=useSelector((state)=>state.user);
+  
     const [account,setaccount]=useState("login")
     const [signup,setsignup]=useState({
         name:"",
@@ -23,7 +25,7 @@ export const Login = ({setisAuth}) => {
         username:"",
         password:"",
     })
-    const [error,setError] = useState(false)
+    
 
     const togglesignup=(e)=>{
         setaccount(e)
@@ -35,49 +37,20 @@ export const Login = ({setisAuth}) => {
     const onvaluechange=(e)=>{
         setlogindata({...logindata,[e.target.name]:e.target.value})
     }
-    const login=async()=>{
+    const login=(e)=>{
         
-        try{
-            let response = await API.userLogin(logindata)
-        
-        if(response.isSuccess){
-            setError(false)
-            sessionStorage.setItem("accesstoken",`Bearer${response.data.accesstoken}`)
-            sessionStorage.setItem("refresstoken",`Bearer${response.data.refresstoken}`)
+        dispatch(loginaction(logindata))
+        if(!error){
             setisAuth(true)
-            setAccount({username:response.data.username,name:response.data.name})
             navigate("/")
         }
-        }
-        catch(e){
-            
-            setError(true)
-        }
-        
-        
     }
-    const signupuser=async()=>{
-        
-        try{
-            let response = await API.userSignup(signup)
-        
-        if(response.isSuccess){
-            
-            setsignup({
-                name:"",
-                username:"",
-                password:"",
-            })
-            setError(false)
+    const signupuser=(e)=>{
+        e.preventDefault()
+        dispatch(signupaction(signup))
+        if(!error){
             setaccount("login")
         }
-        }
-        catch(e){
-            
-            setError(true)
-        }
-        
-        
     }
 
 

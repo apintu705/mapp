@@ -1,5 +1,9 @@
 import axios from 'axios';
 import {API_NOTIFICATION_MESSAGES , SERVICE_URLS} from "../const/config"
+import { getAccessToken, getRefreshToken, setAccessToken, getType } from '../utils/utils';
+
+
+
 
 const API_URL="http://localhost:8080"
 const axiosinstance=axios.create({
@@ -70,8 +74,10 @@ for(const [key, value] of Object.entries(SERVICE_URLS)){
             url: value.url,
             data: value.method === 'DELETE' ? '' : body,
             responseType: value.responseType,
-            
-
+            headers: {
+                authorization: getAccessToken(),
+            },
+            TYPE: getType(value, body),
             onUploadProgress: function(progressEvent) {
                 if (showUploadProgress) {
                     let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);

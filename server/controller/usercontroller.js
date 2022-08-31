@@ -1,6 +1,6 @@
 const User=require("../models/usermodel")
 const bcrypt = require('bcrypt');
-const Token=require("../database/token")
+const { generateToken } = require('../utils/utils');
 const jwt =require("jsonwebtoken");
 require("dotenv").config();
 
@@ -37,13 +37,9 @@ exports.loginuser=async(req, res, next) =>{
             if(!validity){
                 res.status(400).json({msg:"Wrong Password"})
             }else{
-                const accesstoken=jwt.sign(user.toJSON(),process.env.JWT_SECRETACCESS,{expiresIn:"15m"})
-                const refresstoken=jwt.sign(user.toJSON(),process.env.JWT_SECRETREFRESS)
+                const token= generateToken(user)
 
-                const newtoken=new Token({token:refresstoken})
-                await newtoken.save();
-
-                return res.status(200).json({name:user.name,username:user.username,refresstoken,accesstoken})
+                return res.status(200).json({name:user.name,username:user.username,token})
             }
         }
         else{
